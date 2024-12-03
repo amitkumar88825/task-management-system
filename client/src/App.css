@@ -1,0 +1,25 @@
+html, body {
+    height: 100%; /* Ensure the full height of the viewport */
+    margin: 0; /* Remove default margins */
+}
+
+#root {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Make the root container occupy the full viewport height */
+}
+
+.content {
+    flex: 1; /* Allow this section to grow and push the footer to the bottom */
+}
+
+
+
+/***************Login.jsx ****************/
+.login-container {
+    background-color: #f8f9fa;
+    padding: 0;
+}
+.card {
+    border-radius: 10px;
+}
