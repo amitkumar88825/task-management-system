@@ -1,25 +1,96 @@
+/* Ensure the body and html take full height */
 html, body {
-    height: 100%; /* Ensure the full height of the viewport */
-    margin: 0; /* Remove default margins */
-}
-
-#root {
+    height: 100%;
+    margin: 0;
+  }
+  
+  /* Flexbox layout for the entire page */
+  .app-container {
     display: flex;
     flex-direction: column;
-    min-height: 100vh; /* Make the root container occupy the full viewport height */
-}
+    height: 100%;
+  }
+  
+  /* Add padding/margin to the header */
+  header {
+    height: 60px; /* Example, adjust as needed */
+    background-color: #333;
+    padding-bottom: 10px; /* Add space below header */
+  }
+  
+  /* Add margin/padding to the footer */
+  footer {
+    height: 60px; /* Example, adjust as needed */
+    background-color: #333;
+    padding-top: 10px; /* Add space above footer */
+  }
+  
+  /* Signup page container */
+  .signup-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: calc(100vh - 120px); /* Adjust for header/footer height */
+    padding: 20px;
+  }
+  
+  /* Make sure the card has some padding */
+  .card {
+    width: 100%;
+    max-width: 400px;
+    padding: 2rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Ensure margin space for the entire page content */
+  .main-content {
+    margin-top: 20px; /* Space between the form and header */
+    margin-bottom: 20px; /* Space between the form and footer */
+  }
 
-.content {
-    flex: 1; /* Allow this section to grow and push the footer to the bottom */
-}
 
 
 
-/***************Login.jsx ****************/
-.login-container {
-    background-color: #f8f9fa;
-    padding: 0;
-}
-.card {
+
+
+
+  /* ----------------- Profile ------------------------ */
+
+  .user-profile-container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f9f9f9;
     border-radius: 10px;
-}
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .profile-header {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .profile-header h1 {
+    font-size: 24px;
+    color: #333;
+  }
+  
+  .profile-details {
+    font-size: 16px;
+    line-height: 1.8;
+  }
+  
+  .profile-details p {
+    margin: 10px 0;
+  }
+  
+  .profile-details strong {
+    color: #555;
+  }
+  
+  .error-message, .loading-message {
+    text-align: center;
+    font-size: 18px;
+    color: red;
+  }
+  

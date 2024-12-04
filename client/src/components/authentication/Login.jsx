@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../../App.css";
+import axios from 'axios';
 
 const Login = () => {
     const [credentials, setCredentials] = useState({
@@ -30,7 +31,9 @@ const Login = () => {
         // Placeholder for backend authentication
         try {
             // Simulate login success
-            console.log("Login data submitted:", credentials);
+            console.log(34 , credentials);
+            const response = await axios.post('http://localhost:5000/api/login/', credentials);
+            console.log(35 , response);
             alert("Login successful!");
             navigate("/dashboard"); // Navigate to dashboard on success
         } catch (err) {

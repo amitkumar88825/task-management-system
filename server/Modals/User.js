@@ -17,12 +17,6 @@ const userSchema = new mongoose.Schema({
         unique: true,
         trim: true
     },
-    phoneNumber: {
-        type: String,
-        required: true,
-        unique: true,
-        match: [/^\d{10}$/, 'Phone number must be 10 digits']
-    },
     email: {
         type: String,
         required: true,
@@ -34,13 +28,10 @@ const userSchema = new mongoose.Schema({
         required: true,
         minlength: 6
     },
-    dob: {
-        type: Date,
-        required: true
-    },
-    address: {
+    userType: {
         type: String,
         required: true,
+        enum: ['ADM', 'MNG', 'EMP'], // Restrict values to specific options
         trim: true
     }
 }, {

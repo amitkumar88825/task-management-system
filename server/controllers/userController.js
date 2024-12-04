@@ -1,11 +1,11 @@
 const bcrypt = require('bcrypt');
-const User = require('../models/User'); // Ensure the correct path to your User model
+const User = require('../Modals/User'); 
 
 // Add a new user
 const addUser = async (req, res) => {
     try {
         // Destructure request body
-        const { firstName, lastName, username, email, phoneNumber, password, dob, address } = req.body;
+        const { firstName, lastName, username, email, password, userType } = req.body;
 
         // Check if the user already exists
         const existingUser = await User.findOne({ email });
@@ -23,16 +23,16 @@ const addUser = async (req, res) => {
             lastName,
             username,
             email,
-            phoneNumber,
             password: hashedPassword,
-            dob,
-            address,
+            userType
         });
 
         // Save the user to the database
         const savedUser = await user.save();
 
-        res.status(201).json({
+        console.log(35 , savedUser);
+
+        res.status(200).json({
             message: 'User created successfully',
             user: {
                 id: savedUser._id,
@@ -40,8 +40,7 @@ const addUser = async (req, res) => {
                 lastName: savedUser.lastName,
                 username: savedUser.username,
                 email: savedUser.email,
-                dob: savedUser.dob,
-                address: savedUser.address,
+                userType: savedUser.userType
             },
         });
     } catch (error) {
