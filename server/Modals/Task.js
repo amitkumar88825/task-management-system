@@ -27,6 +27,16 @@ const taskSchema = new mongoose.Schema({
     default: 'Pending',
     required: true,
   },
+  isCompleted: {
+    type: Boolean,
+    required: true,
+    default: false, // By default, tasks are not completed
+  },
+  assignedUser: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',  // Reference to User model
+    default: null, // Task can be created without an assigned user
+  },
   createdAt: {
     type: Date,
     default: Date.now,
