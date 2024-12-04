@@ -18,7 +18,7 @@ const addTask = async (req, res) => {
         // Save the task to the database
         const savedTask = await task.save();
 
-        res.status(201).json({
+        res.status(200).json({
             message: 'Task created successfully',
             task: {
                 id: savedTask._id,

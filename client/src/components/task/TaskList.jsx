@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const TaskList = () => {
   const [tasks, setTasks] = useState([]);
@@ -8,27 +9,11 @@ const TaskList = () => {
   // Fetch tasks from the API
   const fetchTasks = async () => {
     try {
-      const response = await axios.get('http://your-api-url.com/tasks');
+      const response = await axios.get('http://localhost:5000/api/task/');
       setTasks(response.data);
     } catch (err) {
       setError('Error fetching tasks');
     }
-  };
-
-  // Delete a task
-  const deleteTask = async (id) => {
-    try {
-      await axios.delete(`http://your-api-url.com/tasks/${id}`);
-      setTasks(tasks.filter((task) => task._id !== id)); // Remove the deleted task from the list
-    } catch (err) {
-      setError('Error deleting task');
-    }
-  };
-
-  // Edit task
-  const editTask = (id) => {
-    // This can be expanded to show an edit form or navigate to an edit page
-    console.log('Editing task with ID:', id);
   };
 
   useEffect(() => {
@@ -36,26 +21,42 @@ const TaskList = () => {
   }, []);
 
   return (
-    <div>
-      <h3>Task List</h3>
+    <div className="container mt-4">
+      <h3 className="mb-4">Task List</h3>
       {error && <div className="alert alert-danger">{error}</div>}
-      <ul>
-        {tasks.length === 0 ? (
-          <li>No tasks available.</li>
-        ) : (
-          tasks.map((task) => (
-            <li key={task._id}>
-              <h5>{task.title}</h5>
-              <p>{task.description}</p>
-              <p>Due Date: {task.dueDate}</p>
-              <p>Priority: {task.priority}</p>
-              <p>Status: {task.status}</p>
-              <button onClick={() => editTask(task._id)}>Edit</button>
-              <button onClick={() => deleteTask(task._id)}>Delete</button>
-            </li>
-          ))
-        )}
-      </ul>
+      {tasks.length === 0 ? (
+        <div className="alert alert-info">No tasks available.</div>
+      ) : (
+        <table className="table table-striped">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Title</th>
+              <th scope="col">Description</th>
+              <th scope="col">Due Date</th>
+              <th scope="col">Priority</th>
+              <th scope="col">Status</th>
+              <th scope="col">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {tasks.map((task, index) => (
+              <tr key={task._id}>
+                <th scope="row">{index + 1}</th>
+                <td>{task.title}</td>
+                <td>{task.description}</td>
+                <td>{task.dueDate}</td>
+                <td>{task.priority}</td>
+                <td>{task.status}</td>
+                <td>
+                  <button className="btn btn-warning btn-sm me-2">Edit</button>
+                  <button className="btn btn-danger btn-sm">Delete</button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      )}
     </div>
   );
 };

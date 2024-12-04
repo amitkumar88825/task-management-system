@@ -3,7 +3,7 @@ import axios from 'axios';
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../../App.css";
 
-const AddTask = () => {
+const AddTask = ({setIsAddTask}) => {
   const [newTask, setNewTask] = useState({
     title: '',
     description: '',
@@ -23,9 +23,12 @@ const AddTask = () => {
   const createTask = async (e) => {
     e.preventDefault();
     try {
-      await axios.post('http://your-api-url.com/tasks', newTask);
-      setNewTask({ title: '', description: '', dueDate: '', priority: '', status: '' });
-      alert("Task created successfully!");
+      const response = await axios.post('http://localhost:5000/api/task/', newTask);
+      if(response.status===200) {
+        setNewTask({ title: '', description: '', dueDate: '', priority: '', status: '' });
+        setIsAddTask(false)
+        alert("Task created successfully!");
+      }
     } catch (err) {
       setError('Error creating task');
     }
