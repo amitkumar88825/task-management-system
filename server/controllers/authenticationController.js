@@ -10,10 +10,13 @@ const JWT_EXPIRY = "1h";
 // Login user
 const loginUser = async (req, res) => {
     try {
-        const { email, password } = req.body;
+        const { identifier, password } = req.body; 
 
-        // Find user by email
-        const user = await User.findOne({ email });
+        // Find user by email or username
+        const user = await User.findOne({
+            $or: [{ email: identifier }, { username: identifier }]
+        });
+
         if (!user) {
             return res.status(401).json({ message: "Invalid username or password" });
         }
@@ -22,7 +25,7 @@ const loginUser = async (req, res) => {
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) {
             // Log failed login attempt
-            console.log(`Failed login attempt for ${email} at ${new Date()}`);
+            console.log(`Failed login attempt for ${identifier} at ${new Date()}`);
             return res.status(401).json({ message: "Invalid username or password" });
         }
 
@@ -38,9 +41,11 @@ const loginUser = async (req, res) => {
         await user.save();
 
         // Log successful login
-        console.log(`User ${email} logged in at ${user.lastLogin}`);
-        // Send Confimation mail
-        sendConfirmationEmail(email, user.name)
+        console.log(`User ${identifier} logged in at ${user.lastLogin}`);
+
+        // Optionally send confirmation email on successful login
+        sendConfirmationEmail(user.email, user.name);
+
         // Send response with token
         res.status(200).json({
             message: "Login successful",
@@ -48,7 +53,8 @@ const loginUser = async (req, res) => {
             user: {
                 id: user._id,
                 email: user.email,
-                name: user.name,
+                name: `${user.firstName} ${user.lastName}`,
+                userType: user.userTypefirstName
             },
         });
     } catch (error) {

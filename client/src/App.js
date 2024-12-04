@@ -5,7 +5,8 @@ import Header from './components/common/header/Header';
 import Login from './components/authentication/Login';
 import Signup from './components/authentication/Singup';
 import Task from "./components/task/Task";
-import Profile from "./components/profile/UserProfile"
+import Profile from "./components/profile/UserProfile";
+import Dashboard from "./components/dashboard/Dashboard";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
             <Route path="/signup" element={<Signup />} />
             <Route path="/task" element={<Task />} />
             <Route path="/profile" element={<Profile />} />
+            <Route path="/dashboard" element={<Dashboard />} />
           </Routes>
         </div>
       </main>

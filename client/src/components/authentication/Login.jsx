@@ -1,16 +1,23 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../../App.css";
 import axios from 'axios';
+import {AuthContext} from "./AuthContext";
+
 
 const Login = () => {
+
+    // States and Const
+    const { login } = useContext(AuthContext)
     const [credentials, setCredentials] = useState({
         identifier: "", // Can be email or username
         password: "",
     });
     const [error, setError] = useState("");
     const navigate = useNavigate();
+
+    // Functions Started
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -31,11 +38,13 @@ const Login = () => {
         // Placeholder for backend authentication
         try {
             // Simulate login success
-            console.log(34 , credentials);
             const response = await axios.post('http://localhost:5000/api/login/', credentials);
             console.log(35 , response);
-            alert("Login successful!");
-            navigate("/dashboard"); // Navigate to dashboard on success
+            if(response.status===200) {   
+                login(response.data.user, response.data.token) // Call login from context
+                alert("Login successful!");
+                navigate("/dashboard"); // Navigate to dashboard on success
+            }
         } catch (err) {
             console.error("Login failed:", err);
             setError("Invalid credentials. Please try again.");
