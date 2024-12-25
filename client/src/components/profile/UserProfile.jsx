@@ -1,14 +1,15 @@
 import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
+import "bootstrap/dist/css/bootstrap.min.css";
 import "../../App.css";
-import {AuthContext} from "../authentication/AuthContext";
-
+import { AuthContext } from "../authentication/AuthContext";
+import { FaUserCircle } from "react-icons/fa"; 
 
 const UserProfile = () => {
   const [userInfo, setUserInfo] = useState(null);
   const [error, setError] = useState("");
 
-  const {user} = useContext(AuthContext)
+  const { user } = useContext(AuthContext);
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -21,27 +22,54 @@ const UserProfile = () => {
     };
 
     fetchUserData();
-  }, []);
+  }, [user.id]);
 
   if (error) {
-    return <div className="error-message">{error}</div>;
+    return <div className="alert alert-danger text-center">{error}</div>;
   }
 
   if (!userInfo) {
-    return <div className="loading-message">Loading...</div>;
+    return <div className="text-center mt-5">Loading...</div>;
   }
 
   return (
-    <div className="user-profile-container">
-      <div className="profile-header">
-        <h1>User Profile</h1>
-      </div>
-      <div className="profile-details">
-        <p><strong>First Name:</strong> {userInfo.firstName}</p>
-        <p><strong>Last Name:</strong> {userInfo.lastName}</p>
-        <p><strong>Username:</strong> {userInfo.username}</p>
-        <p><strong>Email:</strong> {userInfo.email}</p>
-        <p><strong>User Type:</strong> {userInfo.userType}</p>
+    <div className="d-flex justify-content-center align-items-center vh-100">
+      <div className="card shadow-lg" style={{ maxWidth: "600px", width: "100%" }}>
+        <div className="card-header bg-primary text-white text-center">
+          <h2>User Profile</h2>
+        </div>
+        <div className="card-body text-center">
+          <div className="mb-4">
+            {/* Profile Image or Icon */}
+            {userInfo.profileImage ? (
+              <img
+                src={userInfo.profileImage}
+                alt="User Profile"
+                className="rounded-circle img-fluid"
+                style={{ width: "150px", height: "150px", objectFit: "cover", border: "3px solid #ddd" }}
+              />
+            ) : (
+              <FaUserCircle className="text-secondary" style={{ fontSize: "150px" }} />
+            )}
+          </div>
+          <ul className="list-group list-group-flush text-start">
+            <li className="list-group-item">
+              <strong>First Name:</strong> {userInfo.firstName}
+            </li>
+            <li className="list-group-item">
+              <strong>Last Name:</strong> {userInfo.lastName}
+            </li>
+            <li className="list-group-item">
+              <strong>Username:</strong> {userInfo.username}
+            </li>
+            <li className="list-group-item">
+              <strong>Email:</strong> {userInfo.email}
+            </li>
+            <li className="list-group-item">
+              <strong>User Type:</strong> {userInfo.userType}
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
   );
