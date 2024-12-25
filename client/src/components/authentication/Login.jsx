@@ -26,7 +26,7 @@ const Login = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setError(""); // Clear previous errors
+        setError("");
 
         const { identifier, password } = credentials;
 
@@ -34,16 +34,13 @@ const Login = () => {
             setError("All fields are required.");
             return;
         }
-
-        // Placeholder for backend authentication
         try {
-            // Simulate login success
             const response = await axios.post('http://localhost:5000/api/login/', credentials);
             console.log(35 , response);
             if(response.status===200) {   
-                login(response.data.user, response.data.token) // Call login from context
+                login(response.data.user, response.data.token) 
                 alert("Login successful!");
-                navigate("/dashboard"); // Navigate to dashboard on success
+                navigate("/dashboard"); 
             }
         } catch (err) {
             console.error("Login failed:", err);
