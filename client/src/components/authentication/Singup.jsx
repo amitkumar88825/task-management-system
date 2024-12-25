@@ -11,7 +11,7 @@ const Signup = () => {
         username: "",
         email: "",
         password: "",
-        userType: "EMP", // Default userType as EMP
+        userType: "EMP",
         confirmPassword: "",
     });
 
@@ -25,7 +25,7 @@ const Signup = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setError(""); // Clear previous errors
+        setError(""); 
     
         const { password, confirmPassword } = formData;
     

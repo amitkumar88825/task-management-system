@@ -5,16 +5,13 @@ const nodemailer = require("nodemailer");
 const UserAccess = require('../Modals/UserAccess');
 
 
-// Set up JWT secret and expiry
 const JWT_SECRET = process.env.JWT_SECRET;
 const JWT_EXPIRY = "1h";
 
-// Login user
 const loginUser = async (req, res) => {
     try {
         const { identifier, password } = req.body; 
 
-        // Find user by email or username
         const user = await User.findOne({
             $or: [{ email: identifier }, { username: identifier }]
         });
@@ -23,34 +20,27 @@ const loginUser = async (req, res) => {
             return res.status(401).json({ message: "Invalid username or password" });
         }
 
-        // Compare passwords
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) {
-            // Log failed login attempt
             console.log(`Failed login attempt for ${identifier} at ${new Date()}`);
             return res.status(401).json({ message: "Invalid username or password" });
         }
 
-        // Generate JWT
         const token = jwt.sign(
             { id: user._id, email: user.email },
             JWT_SECRET,
             { expiresIn: JWT_EXPIRY }
         );
 
-        // Update user's last login time
         user.lastLogin = new Date();
         await user.save();
 
         const access = await UserAccess.findOne({userType: user.userType}).lean();
 
-        // Log successful login
         console.log(`User ${identifier} logged in at ${user.lastLogin}`);
 
-        // Optionally send confirmation email on successful login
         sendConfirmationEmail(user.email, user.name);
 
-        // Send response with token
         res.status(200).json({
             message: "Login successful",
             token,
@@ -68,7 +58,6 @@ const loginUser = async (req, res) => {
     }
 };
 
-// Send confirmation email
 const sendConfirmationEmail = async (email, name) => {
     try {
         const transporter = nodemailer.createTransport({

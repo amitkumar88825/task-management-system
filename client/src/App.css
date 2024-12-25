@@ -1,40 +1,34 @@
-/* Ensure the body and html take full height */
 html, body {
     height: 100%;
     margin: 0;
   }
   
-  /* Flexbox layout for the entire page */
   .app-container {
     display: flex;
     flex-direction: column;
     height: 100%;
   }
   
-  /* Add padding/margin to the header */
   header {
-    height: 60px; /* Example, adjust as needed */
+    height: 60px; 
     background-color: #333;
-    padding-bottom: 10px; /* Add space below header */
+    padding-bottom: 10px; 
   }
   
-  /* Add margin/padding to the footer */
   footer {
-    height: 60px; /* Example, adjust as needed */
+    height: 60px; 
     background-color: #333;
-    padding-top: 10px; /* Add space above footer */
+    padding-top: 10px; 
   }
   
-  /* Signup page container */
   .signup-container {
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: calc(100vh - 120px); /* Adjust for header/footer height */
+    min-height: calc(100vh - 120px); 
     padding: 20px;
   }
   
-  /* Make sure the card has some padding */
   .card {
     width: 100%;
     max-width: 400px;
@@ -42,19 +36,10 @@ html, body {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   }
   
-  /* Ensure margin space for the entire page content */
   .main-content {
-    margin-top: 20px; /* Space between the form and header */
-    margin-bottom: 20px; /* Space between the form and footer */
+    margin-top: 20px; 
+    margin-bottom: 20px; 
   }
-
-
-
-
-
-
-
-  /* ----------------- Profile ------------------------ */
 
   .user-profile-container {
     max-width: 600px;

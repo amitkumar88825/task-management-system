@@ -1,23 +1,18 @@
 const bcrypt = require('bcrypt');
 const User = require('../Modals/User'); 
 
-// Add a new user
 const addUser = async (req, res) => {
     try {
-        // Destructure request body
         const { firstName, lastName, username, email, password, userType } = req.body;
 
-        // Check if the user already exists
         const existingUser = await User.findOne({ email });
         if (existingUser) {
             return res.status(400).json({ error: 'Email already in use' });
         }
 
-        // Hash the password
         const saltRounds = 10;
         const hashedPassword = await bcrypt.hash(password, saltRounds);
 
-        // Create a new user
         const user = new User({
             firstName,
             lastName,
@@ -27,7 +22,6 @@ const addUser = async (req, res) => {
             userType
         });
 
-        // Save the user to the database
         const savedUser = await user.save();
 
         res.status(200).json({
@@ -50,7 +44,6 @@ const addUser = async (req, res) => {
     }
 };
 
-// Fetch all users
 const getUsers = async (req, res) => {
     try {
         const users = await User.find({ userType: { $ne: 'ADM' } });
@@ -61,7 +54,6 @@ const getUsers = async (req, res) => {
     }
 };
 
-// getUserById
 const getUserById = async (req, res) => {
     try {
         const { id } = req.params; 
@@ -79,7 +71,6 @@ const getUserById = async (req, res) => {
 };
 
 
-// Update an existing user
 const updateUser = async (req, res) => {
     try {
         const userId = req.params.id;
@@ -99,7 +90,6 @@ const updateUser = async (req, res) => {
     }
 };
 
-// Delete a user
 const removeUser = async (req, res) => {
     try {
         const userId = req.params.id;

@@ -22,7 +22,6 @@ const AddTask = ({ setIsAddTask, taskId, setTaskId, setTasks, tasks, fetchUsers,
     fetchUsers();
   }, [taskId]);
 
-  // Fetch task data for editing
   const fetchTask = async () => {
     try {
       const response = await axios.get(`http://localhost:5000/api/task/${taskId}`);
@@ -32,13 +31,11 @@ const AddTask = ({ setIsAddTask, taskId, setTaskId, setTasks, tasks, fetchUsers,
     }
   };
 
-  // Handle input changes
   const handleChange = (e) => {
     const { name, value } = e.target;
     setNewTask({ ...newTask, [name]: value });
   };
 
-  // Create or Update task
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -68,14 +65,12 @@ const AddTask = ({ setIsAddTask, taskId, setTaskId, setTasks, tasks, fetchUsers,
     }
   };
 
-  // Reset form fields
   const resetForm = () => {
     setNewTask({ title: '', description: '', dueDate: '', priority: '', status: '', assignedUser: '' });
     setError('');
     setTaskId('');
   };
 
-  // Handle cancel
   const handleCancel = () => {
     resetForm();
     setIsAddTask(false);
