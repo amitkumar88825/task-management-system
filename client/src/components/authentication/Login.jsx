@@ -7,17 +7,13 @@ import {AuthContext} from "./AuthContext";
 
 
 const Login = () => {
-
-    // States and Const
     const { login } = useContext(AuthContext)
     const [credentials, setCredentials] = useState({
-        identifier: "", // Can be email or username
+        identifier: "", 
         password: "",
     });
     const [error, setError] = useState("");
     const navigate = useNavigate();
-
-    // Functions Started
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -36,11 +32,10 @@ const Login = () => {
         }
         try {
             const response = await axios.post('http://localhost:5000/api/login/', credentials);
-            console.log(35 , response);
             if(response.status===200) {   
                 login(response.data.user, response.data.token) 
                 alert("Login successful!");
-                navigate("/dashboard"); 
+                navigate("/task"); 
             }
         } catch (err) {
             console.error("Login failed:", err);
@@ -88,11 +83,6 @@ const Login = () => {
                         Login
                     </button>
                 </form>
-                <div className="text-center mt-3">
-                    <p>
-                        Don't have an account? <a href="/signup">Sign up</a>
-                    </p>
-                </div>
             </div>
         </div>
     );

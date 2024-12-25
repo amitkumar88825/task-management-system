@@ -17,13 +17,9 @@ const Header = () => {
         <header className="bg-primary text-white py-3">
             <div className="container d-flex justify-content-between align-items-center">
                 <h1 className="mb-0">My Website</h1>
-                <p className="mb-0">{user?.name}</p>
                 <nav>
                     { user && 
                         <ul className="nav">
-                            <li className="nav-item">
-                                <Link className="nav-link text-white" to="/">Dashboard</Link>
-                            </li>
                             <li className="nav-item">
                                 <Link className="nav-link text-white" to="/profile">Profile</Link>
                             </li>
