@@ -1,6 +1,5 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
-import Footer from './components/common/footer/Footer';
 import Header from './components/common/header/Header';
 import Login from './components/authentication/Login';
 import Signup from './components/authentication/Singup';
@@ -23,7 +22,6 @@ function App() {
           </Routes>
         </div>
       </main>
-      <Footer />
     </div>
   );
 }

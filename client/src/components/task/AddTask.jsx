@@ -3,7 +3,7 @@ import axios from 'axios';
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../../App.css";
 
-const AddTask = ({ setIsAddTask, taskId, setTaskId }) => {
+const AddTask = ({ setIsAddTask, taskId, setTaskId, setTasks, tasks }) => {
   const [newTask, setNewTask] = useState({
     title: '',
     description: '',
@@ -53,16 +53,19 @@ const AddTask = ({ setIsAddTask, taskId, setTaskId }) => {
     e.preventDefault();
     try {
       if (taskId) {
-        // Update task if taskId is present
         if (!newTask.status.length) newTask.status = 'Pending'; // Ensure default status is Pending
         const response = await axios.put(`http://localhost:5000/api/task/${taskId}`, newTask);
         if (response.status === 200) {
           alert('Task updated successfully!');
         }
+        setTasks(tasks.map((task) => {
+          if(task._id == taskId) return response.data.task
+          else return task
+        }))
       } else {
-        // Create new task if no taskId
         delete newTask.status;
         const response = await axios.post('http://localhost:5000/api/task/', newTask);
+        setTasks([...tasks, response.data.task])
         if (response.status === 200) {
           alert('Task created successfully!');
         }

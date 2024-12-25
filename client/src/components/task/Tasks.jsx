@@ -181,6 +181,8 @@ const Tasks = () => {
             <AddTask
               setIsAddTask={setIsAddTask}
               taskId={taskId}
+              setTasks={setTasks}
+              tasks={tasks}
               setTaskId={setTaskId}
             />
           </div>

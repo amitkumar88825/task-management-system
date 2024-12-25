@@ -33,11 +33,10 @@ const UserProfile = () => {
   }
 
   return (
-    <div className="d-flex justify-content-center align-items-center vh-100">
+    <div className="container mt-5">
+      <h3 className="mb-4 text-center">My Profile</h3>
+    <div className="d-flex justify-content-center align-items-center vh-10">
       <div className="card shadow-lg" style={{ maxWidth: "600px", width: "100%" }}>
-        <div className="card-header bg-primary text-white text-center">
-          <h2>User Profile</h2>
-        </div>
         <div className="card-body text-center">
           <div className="mb-4">
             {/* Profile Image or Icon */}
@@ -71,6 +70,7 @@ const UserProfile = () => {
           </ul>
         </div>
       </div>
+    </div>      
     </div>
   );
 };
