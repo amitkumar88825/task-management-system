@@ -88,7 +88,7 @@ const Tasks = () => {
 
   return (
     <div className="container mt-5">
-      <h3 className="mb-4 text-center">Task & Management</h3>
+      <h3 className="mb-4 text-center">Tasks</h3>
       {error && <div className="alert alert-danger">{error}</div>}
 
       <div className="row">

@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import '../../../App.css'
-import {AuthContext} from "../../authentication/AuthContext";
+import '../../App.css'
+import {AuthContext} from "../authentication/AuthContext";
 import { Link, useNavigate } from "react-router-dom";
 
 const Header = () => {
@@ -16,7 +16,7 @@ const Header = () => {
     return (
         <header className="bg-primary text-white py-3">
             <div className="container d-flex justify-content-between align-items-center">
-                <h1 className="mb-0">My Website</h1>
+                <h1 className="mb-0">Task Management</h1>
                 <nav>
                     { user && 
                         <ul className="nav">
