@@ -1,12 +1,12 @@
-const Task = require('../Modals/Task'); // Import the Task model
+const Task = require('../Modals/Task'); // 
+const User = require('../Modals/User'); 
 
 // Add a new task
 const addTask = async (req, res) => {
     try {
         // Destructure request body
         const { title, description, dueDate, priority, status, assignedUser } = req.body;
-
-        // Validate assignedUser if needed (you can add a check to ensure the user exists)
+        
         if (assignedUser) {
             const userExists = await User.findById(assignedUser); // Assuming you have a User model
             if (!userExists) {

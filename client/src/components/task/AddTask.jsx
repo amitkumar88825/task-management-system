@@ -61,6 +61,7 @@ const AddTask = ({ setIsAddTask, taskId, setTaskId }) => {
         }
       } else {
         // Create new task if no taskId
+        delete newTask.status;
         const response = await axios.post('http://localhost:5000/api/task/', newTask);
         if (response.status === 200) {
           alert('Task created successfully!');
@@ -87,8 +88,6 @@ const AddTask = ({ setIsAddTask, taskId, setTaskId }) => {
     setIsAddTask(false);
     setTaskId('');
   };
-
-  console.log(93 , users)
 
   return (
     <div className="d-flex align-items-center justify-content-center vh-100">
