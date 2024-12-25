@@ -176,7 +176,8 @@ const Signup = () => {
                 </form>
                 <div className="text-center mt-3">
                     <p>
-                        Already have an account? <a href="/login">Login</a>
+                        Already have an account? <a onClick={() => navigate("/login")}
+                        style={{ color: "#007bff", cursor: "pointer" }}>Login</a>
                     </p>
                 </div>
             </div>
