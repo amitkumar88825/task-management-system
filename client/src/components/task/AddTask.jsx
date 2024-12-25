@@ -3,34 +3,24 @@ import axios from 'axios';
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../../App.css";
 
-const AddTask = ({ setIsAddTask, taskId, setTaskId, setTasks, tasks }) => {
+const AddTask = ({ setIsAddTask, taskId, setTaskId, setTasks, tasks, fetchUsers, users, setUsers }) => {
   const [newTask, setNewTask] = useState({
     title: '',
     description: '',
     dueDate: '',
     priority: '',
     status: '',
-    assignedUser: '' // added assignedUser to task state
+    assignedUser: ''
   });
-  const [users, setUsers] = useState([]);
+
   const [error, setError] = useState('');
 
   useEffect(() => {
     if (taskId) {
-      fetchTask(); // If taskId is present, fetch the task details for updating
+      fetchTask();
     }
     fetchUsers();
   }, [taskId]);
-
-  // Fetch users from the API to assign a user to the task
-  const fetchUsers = async () => {
-    try {
-      const response = await axios.get('http://localhost:5000/api/user/');
-      setUsers(response.data);
-    } catch (err) {
-      setError('Error fetching users');
-    }
-  };
 
   // Fetch task data for editing
   const fetchTask = async () => {
@@ -53,7 +43,7 @@ const AddTask = ({ setIsAddTask, taskId, setTaskId, setTasks, tasks }) => {
     e.preventDefault();
     try {
       if (taskId) {
-        if (!newTask.status.length) newTask.status = 'Pending'; // Ensure default status is Pending
+        if (!newTask.status.length) newTask.status = 'Pending'; 
         const response = await axios.put(`http://localhost:5000/api/task/${taskId}`, newTask);
         if (response.status === 200) {
           alert('Task updated successfully!');
@@ -183,7 +173,7 @@ const AddTask = ({ setIsAddTask, taskId, setTaskId, setTasks, tasks }) => {
               <option value="">Select User</option>
               {users && users.map(user => (
                 <option key={user._id} value={user._id}>
-                  {`${user.firstName} ${user.lastName}`} {/* Assuming the user object has a name field */}
+                  {`${user.firstName} ${user.lastName}`} 
                 </option>
               ))}
             </select>

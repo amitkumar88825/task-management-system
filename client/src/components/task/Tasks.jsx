@@ -10,6 +10,12 @@ const Tasks = () => {
   const [tasks, setTasks] = useState([]);
   const [error, setError] = useState("");
   const { user } = useContext(AuthContext);
+  const [users, setUsers] = useState([]);
+
+  useEffect(() => {
+    fetchTasks();
+    fetchUsers();
+  }, []);
 
   const fetchTasks = async () => {
     try {
@@ -25,7 +31,15 @@ const Tasks = () => {
       setError("Error fetching tasks");
     }
   };
-  
+
+  const fetchUsers = async () => {
+    try {
+      const response = await axios.get("http://localhost:5000/api/user/");
+      setUsers(response.data);
+    } catch (err) {
+      setError("Error fetching users");
+    }
+  };
 
   const updateTaskStatus = async (taskId, status) => {
     try {
@@ -34,6 +48,7 @@ const Tasks = () => {
         { status }
       );
       if (response.status === 200) {
+        alert("Task Updated Successfully");
         setTasks(
           tasks.map((task) =>
             task._id === taskId
@@ -90,10 +105,6 @@ const Tasks = () => {
     setIsAddTask(true);
   };
 
-  useEffect(() => {
-    fetchTasks();
-  }, []);
-
   return (
     <div className="container mt-5">
       <h3 className="mb-4 text-center">Tasks</h3>
@@ -125,6 +136,9 @@ const Tasks = () => {
                     <tr>
                       <th scope="col">#</th>
                       <th scope="col">Title</th>
+                      {["MNG", "ADM"].includes(user?.userType) && (
+                        <th scope="col">Assigned To</th>
+                      )}
                       <th scope="col">Description</th>
                       <th scope="col">Due Date</th>
                       <th scope="col">Priority</th>
@@ -137,6 +151,18 @@ const Tasks = () => {
                       <tr key={task._id}>
                         <th scope="row">{index + 1}</th>
                         <td>{task.title}</td>
+                        {["MNG", "ADM"].includes(user?.userType) && (
+                          <td>
+                            {(() => {
+                              const assignedUser = users?.find(
+                                (user) => user._id === task.assignedUser
+                              );
+                              return assignedUser
+                                ? `${assignedUser.firstName} ${assignedUser.lastName}`
+                                : "Unassigned";
+                            })()}
+                          </td>
+                        )}
                         <td>{task.description}</td>
                         <td>{task.dueDate}</td>
                         <td>{task.priority}</td>
@@ -201,6 +227,9 @@ const Tasks = () => {
               setTasks={setTasks}
               tasks={tasks}
               setTaskId={setTaskId}
+              fetchUsers={fetchUsers}
+              setUsers={setUsers}
+              users={users}
             />
           </div>
         )}
