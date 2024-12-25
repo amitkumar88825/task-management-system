@@ -104,7 +104,7 @@ const Tasks = () => {
         {!isAddTask && (
           <div>
             {/* Add Task Button */}
-            {user.access.includes("addTask") && (
+            {user?.access?.includes("addTask") && (
               <div className="d-flex justify-content-end mb-3">
                 <button
                   className="btn btn-primary"
@@ -157,7 +157,7 @@ const Tasks = () => {
                           )}
                         </td>
                         <td>
-                          {user.access.includes("updateTask") && (
+                          {user?.access?.includes("updateTask") && (
                             <button
                               className="btn btn-warning btn-sm me-2"
                               onClick={() => editTask(task._id)}
@@ -165,7 +165,7 @@ const Tasks = () => {
                               Modify
                             </button>
                           )}
-                          {user.access.includes("deleteTask") && (
+                          {user?.access?.includes("deleteTask") && (
                             <button
                               className="btn btn-danger btn-sm me-2"
                               onClick={() => deleteTask(task._id)}
@@ -173,7 +173,7 @@ const Tasks = () => {
                               Delete
                             </button>
                           )}
-                          {user.access.includes("submitTask") && (
+                          {user?.access?.includes("submitTask") && (
                             <button
                               className="btn btn-success btn-sm"
                               onClick={() => completeTask(task._id)}

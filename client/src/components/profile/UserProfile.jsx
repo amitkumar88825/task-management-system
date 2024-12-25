@@ -22,7 +22,7 @@ const UserProfile = () => {
     };
 
     fetchUserData();
-  }, [user.id]);
+  }, []);
 
   if (error) {
     return <div className="alert alert-danger text-center">{error}</div>;

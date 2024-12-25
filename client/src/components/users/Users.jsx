@@ -84,7 +84,7 @@ const Users = () => {
       {!isAddUser && !isEditUser && (
         <div>
           {/* Add User Button */}
-          {user.access.includes("addUser") && (
+          {user?.access?.includes("addUser") && (
             <div className="d-flex justify-content-end mb-3">
               <button className="btn btn-primary" onClick={handleAddUser}>
                 Add User
@@ -92,7 +92,7 @@ const Users = () => {
             </div>
           )}
 
-          {users.length > 0 ? (
+          {users?.length > 0 ? (
             <div className="table-responsive">
               <table className="table table-striped table-bordered">
                 <thead className="table-dark">
@@ -120,7 +120,7 @@ const Users = () => {
                       </td>
                       <td>{new Date(userInfo.createdAt).toLocaleString()}</td>
                       <td>
-                        {user.access.includes("updateUser") && (
+                        {user?.access?.includes("updateUser") && (
                           <button
                             className="btn btn-warning btn-sm me-2"
                             onClick={() => editUser(userInfo._id)}
@@ -129,7 +129,7 @@ const Users = () => {
                           </button>
                         )}
 
-                        {user.access.includes("removeUser") && (
+                        {user?.access?.includes("removeUser") && (
                           <button
                             className="btn btn-danger btn-sm me-2"
                             onClick={() => deleteUser(userInfo._id)}
