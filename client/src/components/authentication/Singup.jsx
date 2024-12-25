@@ -39,11 +39,9 @@ const Signup = () => {
             return;
         }
     
-        // Axios call to backend API to save user data
         try {            
-            const response = await axios.post('http://localhost:5000/api/user/', formData);
+            const response = await axios.post('http://localhost:5000/api/auth/signup', formData);
 
-            // Assuming response contains a success message
             if (response.status == 200) {
                 alert("Signup successful!");
                 navigate("/login");

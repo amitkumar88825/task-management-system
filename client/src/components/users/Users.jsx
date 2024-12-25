@@ -27,7 +27,11 @@ const Users = () => {
 
   const fetchUsers = async () => {
     try {
-      const response = await axios.get(`http://localhost:5000/api/user/`);
+      const response = await axios.get(`http://localhost:5000/api/user/`, {
+        headers: {
+          Authorization: `Bearer ${user.authToken}`,
+        },
+      });
       setUsers(response.data);
     } catch (error) {
       console.error("Error fetching users:", error);
@@ -41,7 +45,11 @@ const Users = () => {
 
   const editUser = async (userId) => {
     const response = await axios.get(
-      `http://localhost:5000/api/user/${userId}`
+      `http://localhost:5000/api/user/${userId}`, {
+        headers: {
+          Authorization: `Bearer ${user.authToken}`,
+        },
+      }
     );
     setUserId(userId);
     setFormData({
@@ -57,7 +65,11 @@ const Users = () => {
   const deleteUser = async (userId) => {
     try {
       const response = await axios.delete(
-        `http://localhost:5000/api/user/${userId}`
+        `http://localhost:5000/api/user/${userId}`, {
+          headers: {
+            Authorization: `Bearer ${user.authToken}`,
+          },
+        }
       );
       if (response.status === 200) {
         alert(response.data.message);

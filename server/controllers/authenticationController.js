@@ -4,7 +4,6 @@ const jwt = require("jsonwebtoken");
 const nodemailer = require("nodemailer");
 const UserAccess = require('../Modals/UserAccess');
 
-
 const JWT_SECRET = process.env.JWT_SECRET;
 const JWT_EXPIRY = "1h";
 
@@ -82,6 +81,50 @@ const sendConfirmationEmail = async (email, name) => {
     }
 };
 
+const signupUser = async (req, res) => {
+    try {
+        const { firstName, lastName, username, email, password, userType } = req.body;
+
+        const existingUser = await User.findOne({ email });
+        if (existingUser) {
+            return res.status(400).json({ error: 'Email already in use' });
+        }
+
+        const saltRounds = 10;
+        const hashedPassword = await bcrypt.hash(password, saltRounds);
+
+        const user = new User({
+            firstName,
+            lastName,
+            username,
+            email,
+            password: hashedPassword,
+            userType
+        });
+
+        const savedUser = await user.save();
+
+        res.status(200).json({
+            message: 'User created successfully',
+            user: {
+                id: savedUser._id,
+                firstName: savedUser.firstName,
+                lastName: savedUser.lastName,
+                username: savedUser.username,
+                email: savedUser.email,
+                userType: savedUser.userType
+            },
+        });
+    } catch (error) {
+        console.error('Error while adding user:', error);
+        res.status(500).json({
+            error: 'Failed to create user',
+            details: error.message,
+        });
+    }
+}
+
 module.exports = {
     loginUser,
+    signupUser
 };

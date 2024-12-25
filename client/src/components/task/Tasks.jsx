@@ -20,6 +20,9 @@ const Tasks = () => {
   const fetchTasks = async () => {
     try {
       const response = await axios.get("http://localhost:5000/api/task/", {
+        headers: {
+          Authorization: `Bearer ${user.authToken}`,
+        },
         params: {
           userId: user.id,
           userType: user.userType,
@@ -34,7 +37,11 @@ const Tasks = () => {
 
   const fetchUsers = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/api/user/");
+      const response = await axios.get("http://localhost:5000/api/user/", {
+        headers: {
+          Authorization: `Bearer ${user.authToken}`,
+        },
+      });
       setUsers(response.data);
     } catch (err) {
       setError("Error fetching users");
@@ -45,7 +52,11 @@ const Tasks = () => {
     try {
       const response = await axios.put(
         `http://localhost:5000/api/task/${taskId}/status`,
-        { status }
+          {status}, {
+          headers: {
+            Authorization: `Bearer ${user.authToken}`,
+          },
+        }
       );
       if (response.status === 200) {
         alert("Task Updated Successfully");
@@ -66,7 +77,12 @@ const Tasks = () => {
   const completeTask = async (taskId) => {
     try {
       const response = await axios.put(
-        `http://localhost:5000/api/task/${taskId}/complete`
+        `http://localhost:5000/api/task/${taskId}/complete`,
+        {
+          headers: {
+            Authorization: `Bearer ${user.authToken}`,
+          },
+        }
       );
       if (response.status === 200) {
         alert(response.data.message);
@@ -88,7 +104,12 @@ const Tasks = () => {
   const deleteTask = async (taskId) => {
     try {
       const response = await axios.delete(
-        `http://localhost:5000/api/task/${taskId}`
+        `http://localhost:5000/api/task/${taskId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${user.authToken}`,
+          },
+        }
       );
       if (response.status === 200) {
         alert(response.data.message);

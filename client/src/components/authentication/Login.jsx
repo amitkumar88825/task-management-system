@@ -30,7 +30,7 @@ const Login = () => {
       return;
     }
     try {
-      const response = await axios.post('http://localhost:5000/api/login/', credentials);
+      const response = await axios.post('http://localhost:5000/api/auth/login/', credentials);
       if (response.status === 200) {
         login(response.data.user, response.data.token);
         alert("Login successful!");

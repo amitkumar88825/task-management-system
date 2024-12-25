@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../../App.css";
 import axios from "axios";
+import { AuthContext } from "../authentication/AuthContext";
 
 const AddUser = ({
   setUsers,
@@ -15,6 +16,7 @@ const AddUser = ({
   setUserId,
 }) => {
   const [error, setError] = useState("");
+  const { user } = useContext(AuthContext);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -41,7 +43,11 @@ const AddUser = ({
       if (isEditUser) {
         const response = await axios.put(
           `http://localhost:5000/api/user/${userId}`,
-          formData
+            formData, {
+            headers: {
+              Authorization: `Bearer ${user.authToken}`,
+            },
+          }
         );
         if (response.status === 200) {
           setUsers(
@@ -57,10 +63,12 @@ const AddUser = ({
           setError("User updation failed. Please try again.");
         }
       } else {
-        const response = await axios.post(
-          "http://localhost:5000/api/user/",
-          formData
-        );
+        const response = await axios.post("http://localhost:5000/api/user/", 
+        formData, {
+          headers: {
+            Authorization: `Bearer ${user.authToken}`,
+          },
+        });
         if (response.status === 200) {
           setUsers([...users, response.data.user]);
           alert("User Added");

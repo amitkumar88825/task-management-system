@@ -14,7 +14,15 @@ const UserProfile = () => {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/api/user/${user.id}`);
+        // Include the token in the Authorization header
+        const response = await axios.get(
+          `http://localhost:5000/api/user/${user.id}`, {
+            headers: {
+              Authorization: `Bearer ${user.authToken}`,
+            },
+          }
+        );
+
         setUserInfo(response.data);
       } catch (err) {
         setError("Failed to fetch user data. Please try again.");
