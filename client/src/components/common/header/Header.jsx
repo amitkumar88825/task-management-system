@@ -31,6 +31,9 @@ const Header = () => {
                                 <Link className="nav-link text-white" to="/task">Tasks</Link>
                             </li>
                             <li className="nav-item">
+                                <Link className="nav-link text-white" to="/users">Users</Link>
+                            </li>
+                            <li className="nav-item">
                                 <button className="nav-link text-white" onClick={logoutUser}>Logout</button>
                             </li>
                         </ul>

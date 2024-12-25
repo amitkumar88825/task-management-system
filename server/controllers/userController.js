@@ -53,7 +53,7 @@ const addUser = async (req, res) => {
 };
 
 // Fetch all users
-const getUser = async (req, res) => {
+const getUsers = async (req, res) => {
     try {
         const users = await User.find();
         res.status(200).json(users);
@@ -116,7 +116,7 @@ const removeUser = async (req, res) => {
 };
 
 module.exports = {
-    getUser,
+    getUsers,
     addUser,
     updateUser,
     removeUser,

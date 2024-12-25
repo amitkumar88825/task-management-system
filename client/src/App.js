@@ -7,6 +7,7 @@ import Signup from './components/authentication/Singup';
 import Task from "./components/task/Tasks";
 import Profile from "./components/profile/UserProfile";
 import Dashboard from "./components/dashboard/Dashboard";
+import Users from "./components/users/Users"
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/task" element={<Task />} />
+            <Route path="/users" element={<Users />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/dashboard" element={<Dashboard />} />
           </Routes>
