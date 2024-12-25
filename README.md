@@ -1,7 +1,9 @@
-Login Functionality with Improvements
-Steps Added
-Generate a session token (JWT).
-Log login time and user details.
-Provide a consistent error response for invalid credentials.
-Log failed login attempts and optionally limit them.
-Include logic to send a confirmation email upon successful registration.# task-management-system
+How to start
+    1. git clone https://github.com/amitkumar88825/task-management-system.git
+    2. cd task-management-system 
+    3. cd server =>  npm i then npm run seeds npm start
+    4. cd clent =>  npm i then npm start 
+    5. admin login 
+        email- admin@gg.cc
+        password - Admin@123
+
