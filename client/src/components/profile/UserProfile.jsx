@@ -1,17 +1,20 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import "../../App.css";
+import {AuthContext} from "../authentication/AuthContext";
+
 
 const UserProfile = () => {
-  const [user, setUser] = useState(null);
+  const [userInfo, setUserInfo] = useState(null);
   const [error, setError] = useState("");
 
+  const {user} = useContext(AuthContext)
+
   useEffect(() => {
-    // Fetch user data (replace with your actual API endpoint)
     const fetchUserData = async () => {
       try {
-        const response = await axios.get("/api/user-profile"); // Replace with your API route
-        setUser(response.data);
+        const response = await axios.get(`http://localhost:5000/api/user/${user.id}`);
+        setUserInfo(response.data);
       } catch (err) {
         setError("Failed to fetch user data. Please try again.");
       }
@@ -24,7 +27,7 @@ const UserProfile = () => {
     return <div className="error-message">{error}</div>;
   }
 
-  if (!user) {
+  if (!userInfo) {
     return <div className="loading-message">Loading...</div>;
   }
 
@@ -34,11 +37,11 @@ const UserProfile = () => {
         <h1>User Profile</h1>
       </div>
       <div className="profile-details">
-        <p><strong>First Name:</strong> {user.firstName}</p>
-        <p><strong>Last Name:</strong> {user.lastName}</p>
-        <p><strong>Username:</strong> {user.username}</p>
-        <p><strong>Email:</strong> {user.email}</p>
-        <p><strong>User Type:</strong> {user.userType}</p>
+        <p><strong>First Name:</strong> {userInfo.firstName}</p>
+        <p><strong>Last Name:</strong> {userInfo.lastName}</p>
+        <p><strong>Username:</strong> {userInfo.username}</p>
+        <p><strong>Email:</strong> {userInfo.email}</p>
+        <p><strong>User Type:</strong> {userInfo.userType}</p>
       </div>
     </div>
   );

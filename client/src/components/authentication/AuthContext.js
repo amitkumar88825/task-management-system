@@ -7,21 +7,18 @@ export const AuthContext = createContext();
 // Provider
 
 export const AuthContextProvider = ({ children }) => {
-    const [user, setUser] = useState(null);
-    const [token, setToken] = useState(null);
+    const [user, setUser] = useState({});
 
     const login = (userData, authToken) => {
-        setUser(userData);
-        setToken(authToken);
+        setUser({...userData, ['authToken']:authToken});
     };
 
     const logout = () => {
-        setUser(null);
-        setToken(null);
+        setUser({});
     };
 
     return (
-        <AuthContext.Provider value={{ user, token, login, logout }}>
+        <AuthContext.Provider value={{ user, login, logout }}>
             {children}
         </AuthContext.Provider>
     );

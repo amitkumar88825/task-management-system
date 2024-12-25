@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../../../App.css'
 import {AuthContext} from "../../authentication/AuthContext";
+import { Link } from "react-router-dom";
 
 const Header = () => {
     const { user } = useContext(AuthContext);
@@ -13,13 +14,13 @@ const Header = () => {
                     { user && 
                         <ul className="nav">
                             <li className="nav-item">
-                                <a className="nav-link text-white" href="/">Dashboard</a>
+                                <Link className="nav-link text-white" to="/">Dashboard</Link>
                             </li>
                             <li className="nav-item">
-                                <a className="nav-link text-white" href="/profile">Profile</a>
+                                <Link className="nav-link text-white" to="/profile">Profile</Link>
                             </li>
                             <li className="nav-item">
-                                <a className="nav-link text-white" href="/task">Tasks</a>
+                                <Link className="nav-link text-white" to="/task">Tasks</Link>
                             </li>
                         </ul>
                     }                        
