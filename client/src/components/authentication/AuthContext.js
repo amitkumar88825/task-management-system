@@ -10,7 +10,7 @@ export const AuthContextProvider = ({ children }) => {
 
     const [user, setUser] = useState(() => {
         const savedUser = localStorage.getItem("user");
-        return savedUser ? JSON.parse(savedUser) : {};
+        return savedUser ? JSON.parse(savedUser) : null;
       });
     
 
@@ -20,7 +20,8 @@ export const AuthContextProvider = ({ children }) => {
     };
 
     const logout = () => {
-        setUser({});
+        setUser(null);
+        localStorage.removeItem("user");
     };
 
     return (
