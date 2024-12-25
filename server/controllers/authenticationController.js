@@ -2,6 +2,8 @@ const User = require("../Modals/User");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const nodemailer = require("nodemailer");
+const UserAccess = require('../Modals/UserAccess');
+
 
 // Set up JWT secret and expiry
 const JWT_SECRET = process.env.JWT_SECRET;
@@ -40,6 +42,8 @@ const loginUser = async (req, res) => {
         user.lastLogin = new Date();
         await user.save();
 
+        const access = await UserAccess.findOne({userType: user.userType}).lean();
+
         // Log successful login
         console.log(`User ${identifier} logged in at ${user.lastLogin}`);
 
@@ -53,6 +57,7 @@ const loginUser = async (req, res) => {
             user: {
                 id: user._id,
                 email: user.email,
+                access: access.access,
                 name: `${user.firstName} ${user.lastName}`,
                 userType: user.userTypefirstName
             },

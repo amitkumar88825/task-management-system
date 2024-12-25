@@ -1,23 +1,24 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useContext, useState } from "react";
 import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
 import AddUser from "./AddUser";
+import { AuthContext } from "../authentication/AuthContext";
 
 const Users = () => {
-      const [formData, setFormData] = useState({
-        firstName: "",
-        lastName: "",
-        username: "",
-        email: "",
-        password: "",
-        userType: "EMP",
-        confirmPassword: "",
-      });
-  
+  const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
+    username: "",
+    email: "",
+    password: "",
+    userType: "EMP",
+    confirmPassword: "",
+  });
+  const { user } = useContext(AuthContext);
   const [users, setUsers] = useState([]);
   const [isAddUser, setIsAddUser] = useState(false);
   const [isEditUser, setIsEditUser] = useState(false);
-  const [userId, setUserId] = useState('')
+  const [userId, setUserId] = useState("");
   const [error, setError] = useState(null);
 
   useEffect(() => {
@@ -39,19 +40,21 @@ const Users = () => {
   };
 
   const editUser = async (userId) => {
-    const response = await axios.get(`http://localhost:5000/api/user/${userId}`);
-    setUserId(userId)
+    const response = await axios.get(
+      `http://localhost:5000/api/user/${userId}`
+    );
+    setUserId(userId);
     setFormData({
       firstName: response.data.firstName,
       lastName: response.data.lastName,
       username: response.data.username,
       email: response.data.email,
       userType: response.data.userType,
-    })
-    setIsEditUser(true)
+    });
+    setIsEditUser(true);
   };
-  
-  const deleteUser = async(userId) => {
+
+  const deleteUser = async (userId) => {
     try {
       const response = await axios.delete(
         `http://localhost:5000/api/user/${userId}`
@@ -64,7 +67,13 @@ const Users = () => {
       console.error("Error deleting User:", err);
       setError("Failed to delete User");
     }
-  }
+  };
+
+  const userTypes = [
+    { type: "ADM", value: "Admin" },
+    { type: "EMP", value: "Employee" },
+    { type: "MNG", value: "Manager" },
+  ];
 
   return (
     <div className="container mt-5">
@@ -72,14 +81,16 @@ const Users = () => {
       {error && <div className="alert alert-danger">{error}</div>}
 
       {/* User Table */}
-      {users.length > 0 && !isAddUser && !isEditUser && (
+      {!isAddUser && !isEditUser && (
         <div>
           {/* Add User Button */}
-          <div className="d-flex justify-content-end mb-3">
-            <button className="btn btn-primary" onClick={handleAddUser}>
-              Add User
-            </button>
-          </div>
+          {user.access.includes("addUser") && (
+            <div className="d-flex justify-content-end mb-3">
+              <button className="btn btn-primary" onClick={handleAddUser}>
+                Add User
+              </button>
+            </div>
+          )}
 
           {users.length > 0 ? (
             <div className="table-responsive">
@@ -95,26 +106,37 @@ const Users = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {users.map((user, index) => (
-                    <tr key={user._id}>
+                  {users.map((userInfo, index) => (
+                    <tr key={userInfo._id}>
                       <td>{index + 1}</td>
-                      <td>{user.username}</td>
-                      <td>{user.email}</td>
-                      <td>{user.userType}</td>
-                      <td>{new Date(user.createdAt).toLocaleString()}</td>
+                      <td>{userInfo.username}</td>
+                      <td>{userInfo.email}</td>
                       <td>
-                        <button
-                          className="btn btn-warning btn-sm me-2"
-                          onClick={() => editUser(user._id)}
-                        >
-                          Modify
-                        </button>
-                        <button
-                          className="btn btn-danger btn-sm me-2"
-                          onClick={() => deleteUser(user._id)}
-                        >
-                          Delete
-                        </button>
+                        {
+                          userTypes.find(
+                            (userType) => userType.type === userInfo.userType
+                          )?.value
+                        }
+                      </td>
+                      <td>{new Date(userInfo.createdAt).toLocaleString()}</td>
+                      <td>
+                        {user.access.includes("updateUser") && (
+                          <button
+                            className="btn btn-warning btn-sm me-2"
+                            onClick={() => editUser(userInfo._id)}
+                          >
+                            Modify
+                          </button>
+                        )}
+
+                        {user.access.includes("removeUser") && (
+                          <button
+                            className="btn btn-danger btn-sm me-2"
+                            onClick={() => deleteUser(userInfo._id)}
+                          >
+                            Delete
+                          </button>
+                        )}
                       </td>
                     </tr>
                   ))}
