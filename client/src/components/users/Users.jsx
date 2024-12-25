@@ -15,7 +15,7 @@ const Users = () => {
   const fetchUsers = async () => {
     try {
       const response = await axios.get(`http://localhost:5000/api/user/`);
-      setUsers(response.data); 
+      setUsers(response.data);
     } catch (error) {
       console.error("Error fetching users:", error);
       setError("Failed to fetch users. Please try again later.");
@@ -29,12 +29,12 @@ const Users = () => {
 
   return (
     <div className="container mt-5">
+      <h3 className="mb-4 text-center">Users</h3>
+      {error && <div className="alert alert-danger">{error}</div>}
+
       {/* User Table */}
       {users.length > 0 && !isAddUser && (
         <div>
-          <h2 className="mb-4">Users</h2>
-          {error && <div className="alert alert-danger">{error}</div>}
-
           {/* Add User Button */}
           <div className="d-flex justify-content-end mb-3">
             <button className="btn btn-primary" onClick={handleAddUser}>
@@ -74,7 +74,13 @@ const Users = () => {
       )}
 
       {/* Add User Component */}
-      {isAddUser && <AddUser setUsers={setUsers} users={users} setIsAddUser={setIsAddUser} />}
+      {isAddUser && (
+        <AddUser
+          setUsers={setUsers}
+          users={users}
+          setIsAddUser={setIsAddUser}
+        />
+      )}
     </div>
   );
 };

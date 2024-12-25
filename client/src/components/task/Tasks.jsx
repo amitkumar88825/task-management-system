@@ -1,73 +1,82 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import AddTask from './AddTask';
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import "bootstrap/dist/css/bootstrap.min.css";
+import AddTask from "./AddTask";
 
 const Tasks = () => {
   const [isAddTask, setIsAddTask] = useState(false);
-  const [taskId, setTaskId] = useState('');
+  const [taskId, setTaskId] = useState("");
   const [tasks, setTasks] = useState([]);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
 
-  // Fetch tasks from the API
   const fetchTasks = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/task/');
+      const response = await axios.get("http://localhost:5000/api/task/");
       setTasks(response.data);
     } catch (err) {
-      setError('Error fetching tasks');
+      setError("Error fetching tasks");
     }
   };
 
-  // Update task status functionality
   const updateTaskStatus = async (taskId, status) => {
     try {
-      const response = await axios.put(`http://localhost:5000/api/task/${taskId}/status`, { status });
+      const response = await axios.put(
+        `http://localhost:5000/api/task/${taskId}/status`,
+        { status }
+      );
       if (response.status === 200) {
         // Update the task list with the updated task status
-        setTasks(tasks.map(task =>
-          task._id === taskId ? { ...task, status: response.data.task.status } : task
-        ));
+        setTasks(
+          tasks.map((task) =>
+            task._id === taskId
+              ? { ...task, status: response.data.task.status }
+              : task
+          )
+        );
       }
     } catch (err) {
-      console.error('Error updating task status:', err);
-      setError('Failed to update task status');
+      console.error("Error updating task status:", err);
+      setError("Failed to update task status");
     }
   };
 
-  // Complete task functionality (mark task as completed)
   const completeTask = async (taskId) => {
     try {
-      const response = await axios.put(`http://localhost:5000/api/task/${taskId}/complete`);
+      const response = await axios.put(
+        `http://localhost:5000/api/task/${taskId}/complete`
+      );
       if (response.status === 200) {
         alert(response.data.message);
-        // Update the task list with the updated task status
-        setTasks(tasks.map(task =>
-          task._id === taskId ? { ...task, isCompleted: true, status: 'Completed' } : task
-        ));
+
+        setTasks(
+          tasks.map((task) =>
+            task._id === taskId
+              ? { ...task, isCompleted: true, status: "Completed" }
+              : task
+          )
+        );
       }
     } catch (err) {
-      console.error('Error marking task as completed:', err);
-      setError('Failed to complete task');
+      console.error("Error marking task as completed:", err);
+      setError("Failed to complete task");
     }
   };
 
-  // Delete task functionality
   const deleteTask = async (taskId) => {
     try {
-      const response = await axios.delete(`http://localhost:5000/api/task/${taskId}`);
+      const response = await axios.delete(
+        `http://localhost:5000/api/task/${taskId}`
+      );
       if (response.status === 200) {
         alert(response.data.message);
-        // Remove the task from the list in the UI
-        setTasks(tasks.filter(task => task._id !== taskId));
+        setTasks(tasks.filter((task) => task._id !== taskId));
       }
     } catch (err) {
-      console.error('Error deleting task:', err);
-      setError('Failed to delete task');
+      console.error("Error deleting task:", err);
+      setError("Failed to delete task");
     }
   };
 
-  // Edit task functionality (redirect to edit page or open edit form)
   const editTask = (taskId) => {
     setTaskId(taskId);
     setIsAddTask(true);
@@ -79,27 +88,30 @@ const Tasks = () => {
 
   return (
     <div className="container mt-5">
-      <h3 className="mb-4 text-center">Task Room & Management</h3>
+      <h3 className="mb-4 text-center">Task & Management</h3>
       {error && <div className="alert alert-danger">{error}</div>}
 
-      <div className="mb-3 text-center">
-        <button
-          className="btn btn-primary btn-lg"
-          onClick={() => setIsAddTask(!isAddTask)}
-        >
-          {isAddTask ? 'View Task List' : 'Add Task'}
-        </button>
-      </div>
-
       <div className="row">
+        {/* Add Task Button */}
+        <div className="d-flex justify-content-end mb-3">
+          <button
+            className="btn btn-primary"
+            onClick={() => setIsAddTask(!isAddTask)}
+          >
+            Add Task
+          </button>
+        </div>
+
         {/* Task List */}
         {!isAddTask && (
           <div className="col-12">
             {tasks.length === 0 ? (
-              <div className="alert alert-info text-center">No tasks available.</div>
+              <div className="alert alert-info text-center">
+                No tasks available.
+              </div>
             ) : (
               <table className="table table-striped">
-                <thead>
+                <thead className="table-dark">
                   <tr>
                     <th scope="col">#</th>
                     <th scope="col">Title</th>
@@ -119,10 +131,14 @@ const Tasks = () => {
                       <td>{task.dueDate}</td>
                       <td>{task.priority}</td>
                       <td>
-                        {task.isCompleted ? 'Completed' : (
+                        {task.isCompleted ? (
+                          "Completed"
+                        ) : (
                           <select
                             value={task.status}
-                            onChange={(e) => updateTaskStatus(task._id, e.target.value)}
+                            onChange={(e) =>
+                              updateTaskStatus(task._id, e.target.value)
+                            }
                             className="form-select form-select-sm"
                           >
                             <option value="Pending">Pending</option>
@@ -162,7 +178,11 @@ const Tasks = () => {
         {/* Add Task Form */}
         {isAddTask && (
           <div className="col-12">
-            <AddTask setIsAddTask={setIsAddTask} taskId={taskId} setTaskId={setTaskId} />
+            <AddTask
+              setIsAddTask={setIsAddTask}
+              taskId={taskId}
+              setTaskId={setTaskId}
+            />
           </div>
         )}
       </div>
