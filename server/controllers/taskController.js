@@ -53,13 +53,23 @@ const addTask = async (req, res) => {
 // Fetch all tasks
 const getTasks = async (req, res) => {
     try {
-        const tasks = await Task.find();
+        const { userType, userId } = req.query;        
+        let tasks;
+        if (['MNG', 'ADM'].includes(userType)) {
+            tasks = await Task.find();
+        } else if (userType === 'EMP' && userId) {
+            tasks = await Task.find({ assignedUser: userId });
+        } else {
+            return res.status(400).json({ error: 'Invalid userType or userId' });
+        }
+
         res.status(200).json(tasks);
     } catch (error) {
-        console.error(error);
+        console.error('Error fetching tasks:', error);
         res.status(500).json({ error: 'Failed to fetch tasks' });
     }
 };
+
 
 // Fetch a task by its ID
 const getTaskById = async (req, res) => {

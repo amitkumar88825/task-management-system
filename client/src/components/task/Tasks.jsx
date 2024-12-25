@@ -13,12 +13,19 @@ const Tasks = () => {
 
   const fetchTasks = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/api/task/");
+      const response = await axios.get("http://localhost:5000/api/task/", {
+        params: {
+          userId: user.id,
+          userType: user.userType,
+        },
+      });
       setTasks(response.data);
     } catch (err) {
+      console.error("Error fetching tasks:", err);
       setError("Error fetching tasks");
     }
   };
+  
 
   const updateTaskStatus = async (taskId, status) => {
     try {
@@ -27,7 +34,6 @@ const Tasks = () => {
         { status }
       );
       if (response.status === 200) {
-        // Update the task list with the updated task status
         setTasks(
           tasks.map((task) =>
             task._id === taskId
@@ -167,13 +173,15 @@ const Tasks = () => {
                               Delete
                             </button>
                           )}
-                          <button
-                            className="btn btn-success btn-sm"
-                            onClick={() => completeTask(task._id)}
-                            disabled={task.isCompleted}
-                          >
-                            Done
-                          </button>
+                          {user.access.includes("submitTask") && (
+                            <button
+                              className="btn btn-success btn-sm"
+                              onClick={() => completeTask(task._id)}
+                              disabled={task.isCompleted}
+                            >
+                              Done
+                            </button>
+                          )}
                         </td>
                       </tr>
                     ))}

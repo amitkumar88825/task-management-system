@@ -59,7 +59,7 @@ const loginUser = async (req, res) => {
                 email: user.email,
                 access: access.access,
                 name: `${user.firstName} ${user.lastName}`,
-                userType: user.userTypefirstName
+                userType: user.userType
             },
         });
     } catch (error) {

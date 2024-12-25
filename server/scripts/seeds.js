@@ -6,9 +6,9 @@ const UserAccess = require('../Modals/UserAccess');
 mongoose.connect("mongodb://localhost:27017/task-management-system", {})
 
 const defaultAccess = [
-    { userType: 'ADM', access: ['profile', 'users', 'addUser', 'updateUser', 'removeUser', 'tasks', 'addTask', 'updateTask', 'deleteTask', 'assignTask'] },
-    { userType: 'MNG', access: ['profile', 'users', 'addUser', 'updateUser', 'addTask', 'tasks', 'updateTask', 'assignTask'] },
-    { userType: 'EMP', access: ['profile', 'tasks', 'updateTask'] }
+    { userType: 'ADM', access: ['profile', 'users', 'addUser', 'updateUser', 'removeUser', 'tasks', 'addTask', 'updateTask', 'deleteTask', 'assignTask', 'submitTask'] },
+    { userType: 'MNG', access: ['profile', 'users', 'addUser', 'updateUser', 'addTask', 'tasks', 'updateTask', 'assignTask', 'submitTask'] },
+    { userType: 'EMP', access: ['profile', 'tasks', , 'submitTask'] }
 ];
 
 const adminData = {
