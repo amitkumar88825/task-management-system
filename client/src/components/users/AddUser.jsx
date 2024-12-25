@@ -3,16 +3,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "../../App.css";
 import axios from 'axios';
 
-const AddUser = ({ setUsers, users, setIsAddUser }) => {
-    const [formData, setFormData] = useState({
-        firstName: "",
-        lastName: "",
-        username: "",
-        email: "",
-        password: "",
-        userType: "EMP",
-        confirmPassword: "",
-    });
+const AddUser = ({ setUsers, users, setIsAddUser, formData, setFormData, isEditUser, setIsEditUser, userId, setUserId }) => {
 
     const [error, setError] = useState("");
 
@@ -38,13 +29,27 @@ const AddUser = ({ setUsers, users, setIsAddUser }) => {
         }
 
         try {
-            const response = await axios.post('http://localhost:5000/api/user/', formData);
-            if (response.status === 200) {
-                setUsers([...users, response.data.user])
-                alert("User Added");
-                handleCancel();
+            if(isEditUser) {
+                const response = await axios.put(`http://localhost:5000/api/user/${userId}`, formData);                
+                if (response.status === 200) {
+                    setUsers(users.map((user) => {
+                        if(user.email === response.data.user.email) return response.data.user
+                        else return user
+                    }))
+                    alert("User Updated");
+                    handleCancel();
+                } else {
+                    setError("User updation failed. Please try again.");
+                }
             } else {
-                setError("User addition failed. Please try again.");
+                const response = await axios.post('http://localhost:5000/api/user/', formData);
+                if (response.status === 200) {
+                    setUsers([...users, response.data.user])
+                    alert("User Added");
+                    handleCancel();
+                } else {
+                    setError("User addition failed. Please try again.");
+                }    
             }
         } catch (err) {
             console.error("User addition failed", err);
@@ -54,6 +59,8 @@ const AddUser = ({ setUsers, users, setIsAddUser }) => {
 
     const handleCancel = () => {
         setIsAddUser(false);
+        setIsEditUser(false);
+        setUserId('')
         setFormData({
             firstName: "",
             lastName: "",
